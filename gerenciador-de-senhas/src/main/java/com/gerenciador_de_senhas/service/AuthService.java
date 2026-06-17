@@ -6,6 +6,7 @@ import com.gerenciador_de_senhas.dto.UsuarioResponseDTO;
 import com.gerenciador_de_senhas.entity.Usuario;
 import com.gerenciador_de_senhas.mapper.UsuarioMapper;
 import com.gerenciador_de_senhas.repository.UsuarioRepository;
+import com.gerenciador_de_senhas.util.ForcaSenhaUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,10 @@ public class AuthService {
             throw new IllegalArgumentException("E-mail já cadastrado");
         }
 
+        if (!ForcaSenhaUtil.senhaAtendeCriteriosMinimos(dto.getSenha())) {
+            throw new IllegalArgumentException(ForcaSenhaUtil.mensagemCriteriosSenha());
+        }
+
         Usuario usuario = new Usuario();
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
@@ -45,7 +50,10 @@ public class AuthService {
         Usuario usuario = usuarioRepository.findByEmail(dto.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("E-mail ou senha inválidos"));
 
-        boolean senhaCorreta = passwordEncoder.matches(dto.getSenha(), usuario.getSenhaHash());
+        boolean senhaCorreta = passwordEncoder.matches(
+                dto.getSenha(),
+                usuario.getSenhaHash()
+        );
 
         if (!senhaCorreta) {
             throw new IllegalArgumentException("E-mail ou senha inválidos");

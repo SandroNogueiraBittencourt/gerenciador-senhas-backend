@@ -2,22 +2,34 @@ package com.gerenciador_de_senhas.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class RegisterRequestDTO {
 
     @NotBlank(message = "O nome é obrigatório")
-    @Size(max = 100, message = "O nome deve ter no máximo 100 caracteres")
     private String nome;
 
     @NotBlank(message = "O e-mail é obrigatório")
-    @Email(message = "Informe um e-mail válido")
-    @Size(max = 150, message = "O e-mail deve ter no máximo 150 caracteres")
+    @Email(message = "E-mail inválido")
     private String email;
 
     @NotBlank(message = "A senha é obrigatória")
     @Size(min = 8, message = "A senha deve ter no mínimo 8 caracteres")
+    @Pattern(
+            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,}$",
+            message = "A senha deve ter no mínimo 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial."
+    )
     private String senha;
+
+    public RegisterRequestDTO() {
+    }
+
+    public RegisterRequestDTO(String nome, String email, String senha) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+    }
 
     public String getNome() {
         return nome;

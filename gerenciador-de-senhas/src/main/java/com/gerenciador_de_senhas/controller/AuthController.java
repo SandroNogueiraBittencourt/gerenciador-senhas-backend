@@ -7,13 +7,11 @@ import com.gerenciador_de_senhas.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
 
     private final AuthService authService;
@@ -24,13 +22,11 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<UsuarioResponseDTO> registrar(@Valid @RequestBody RegisterRequestDTO dto) {
-        UsuarioResponseDTO usuario = authService.registrar(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.registrar(dto));
     }
 
     @PostMapping("/login")
     public ResponseEntity<UsuarioResponseDTO> login(@Valid @RequestBody LoginRequestDTO dto) {
-        UsuarioResponseDTO usuario = authService.login(dto);
-        return ResponseEntity.ok(usuario);
+        return ResponseEntity.ok(authService.login(dto));
     }
 }
