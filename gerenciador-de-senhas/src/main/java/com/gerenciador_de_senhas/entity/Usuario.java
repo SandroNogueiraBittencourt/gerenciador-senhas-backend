@@ -32,6 +32,15 @@ public class Usuario {
     @Column(name = "data_criacao", nullable = false)
     private LocalDateTime dataCriacao;
 
+    @Column(name = "mfa_ativo", nullable = false)
+    private boolean mfaAtivo = false;
+
+    @Column(name = "mfa_secret", columnDefinition = "TEXT")
+    private String mfaSecret;
+
+    @Column(name = "mfa_secret_temporario", columnDefinition = "TEXT")
+    private String mfaSecretTemporario;
+
     @OneToMany(mappedBy = "usuario")
     private List<Senha> senhas = new ArrayList<>();
 
@@ -86,6 +95,30 @@ public class Usuario {
 
     public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+
+    public boolean isMfaAtivo() {
+        return mfaAtivo;
+    }
+
+    public void setMfaAtivo(boolean mfaAtivo) {
+        this.mfaAtivo = mfaAtivo;
+    }
+
+    public String getMfaSecret() {
+        return mfaSecret;
+    }
+
+    public void setMfaSecret(String mfaSecret) {
+        this.mfaSecret = mfaSecret;
+    }
+
+    public String getMfaSecretTemporario() {
+        return mfaSecretTemporario;
+    }
+
+    public void setMfaSecretTemporario(String mfaSecretTemporario) {
+        this.mfaSecretTemporario = mfaSecretTemporario;
     }
 
     public List<Senha> getSenhas() {
