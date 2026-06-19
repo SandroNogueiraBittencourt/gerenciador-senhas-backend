@@ -36,9 +36,9 @@ public class SenhaService {
         this.criptografiaUtil = criptografiaUtil;
     }
 
-    public SenhaResponseDTO cadastrar(SenhaRequestDTO dto) {
-        Usuario usuario = buscarUsuario(dto.getUsuarioId());
-        Categoria categoria = buscarCategoriaOpcional(dto.getCategoriaId(), dto.getUsuarioId());
+    public SenhaResponseDTO cadastrar(SenhaRequestDTO dto, Long usuarioId) {
+    	Usuario usuario = buscarUsuario(usuarioId);
+    	Categoria categoria = buscarCategoriaOpcional(dto.getCategoriaId(), usuarioId);
 
         Senha senha = new Senha();
         senha.setNomeServico(dto.getNomeServico());
@@ -84,13 +84,13 @@ public class SenhaService {
                 .toList();
     }
 
-    public SenhaResponseDTO atualizar(Long id, SenhaRequestDTO dto) {
-        Senha senha = senhaRepository.findByIdAndUsuarioId(id, dto.getUsuarioId())
-                .orElseThrow(() -> new IllegalArgumentException("Senha não encontrada"));
+    public SenhaResponseDTO atualizar(Long id, SenhaRequestDTO dto, Long usuarioId) {
+    	Senha senha = senhaRepository.findByIdAndUsuarioId(id, usuarioId)
+            .orElseThrow(() -> new IllegalArgumentException("Senha não encontrada"));
 
-        Categoria categoria = buscarCategoriaOpcional(dto.getCategoriaId(), dto.getUsuarioId());
-
-        senha.setNomeServico(dto.getNomeServico());
+    	Categoria categoria = buscarCategoriaOpcional(dto.getCategoriaId(), usuarioId);
+        
+	senha.setNomeServico(dto.getNomeServico());
         senha.setUrl(dto.getUrl());
         senha.setLoginServico(dto.getLoginServico());
         senha.setSenhaCriptografada(criptografiaUtil.criptografar(dto.getSenha()));

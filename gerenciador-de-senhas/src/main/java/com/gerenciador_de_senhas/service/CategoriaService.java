@@ -26,10 +26,10 @@ public class CategoriaService {
         this.categoriaMapper = categoriaMapper;
     }
 
-    public CategoriaResponseDTO cadastrar(CategoriaRequestDTO dto) {
-        Usuario usuario = buscarUsuario(dto.getUsuarioId());
+    public CategoriaResponseDTO cadastrar(CategoriaRequestDTO dto, Long usuarioId) {
+    	Usuario usuario = buscarUsuario(usuarioId);
 
-        if (categoriaRepository.existsByNomeIgnoreCaseAndUsuarioId(dto.getNome(), dto.getUsuarioId())) {
+    	if (categoriaRepository.existsByNomeIgnoreCaseAndUsuarioId(dto.getNome(), usuarioId)) {
             throw new IllegalArgumentException("Categoria já cadastrada para este usuário");
         }
 
@@ -48,10 +48,9 @@ public class CategoriaService {
                 .toList();
     }
 
-    public CategoriaResponseDTO atualizar(Long id, CategoriaRequestDTO dto) {
-        Categoria categoria = categoriaRepository.findByIdAndUsuarioId(id, dto.getUsuarioId())
-                .orElseThrow(() -> new IllegalArgumentException("Categoria não encontrada"));
-
+    public CategoriaResponseDTO atualizar(Long id, CategoriaRequestDTO dto, Long usuarioId) {
+    	Categoria categoria = categoriaRepository.findByIdAndUsuarioId(id, usuarioId)
+            .orElseThrow(() -> new IllegalArgumentException("Categoria não encontrada"));
         categoria.setNome(dto.getNome());
         categoria.setDescricao(dto.getDescricao());
 

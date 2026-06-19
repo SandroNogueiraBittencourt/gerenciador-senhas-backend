@@ -1,7 +1,6 @@
 package com.gerenciador_de_senhas.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class SenhaRequestDTO {
@@ -21,7 +20,6 @@ public class SenhaRequestDTO {
 
     private String observacoes;
 
-    @NotNull(message = "O usuário é obrigatório")
     private Long usuarioId;
 
     private Long categoriaId;

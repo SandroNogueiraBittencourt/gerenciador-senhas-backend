@@ -1,7 +1,6 @@
 package com.gerenciador_de_senhas.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class CategoriaRequestDTO {
@@ -13,7 +12,6 @@ public class CategoriaRequestDTO {
     @Size(max = 255, message = "A descrição deve ter no máximo 255 caracteres")
     private String descricao;
 
-    @NotNull(message = "O usuário é obrigatório")
     private Long usuarioId;
 
     public String getNome() {
