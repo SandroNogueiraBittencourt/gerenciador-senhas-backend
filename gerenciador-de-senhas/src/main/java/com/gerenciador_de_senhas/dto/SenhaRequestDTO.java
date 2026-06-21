@@ -20,8 +20,6 @@ public class SenhaRequestDTO {
 
     private String observacoes;
 
-    private Long usuarioId;
-
     private Long categoriaId;
 
     public String getNomeServico() {
@@ -62,14 +60,6 @@ public class SenhaRequestDTO {
 
     public void setObservacoes(String observacoes) {
         this.observacoes = observacoes;
-    }
-
-    public Long getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
     }
 
     public Long getCategoriaId() {

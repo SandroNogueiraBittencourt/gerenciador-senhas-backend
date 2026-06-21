@@ -13,4 +13,8 @@ public interface SenhaRepository extends JpaRepository<Senha, Long> {
     Optional<Senha> findByIdAndUsuarioId(Long id, Long usuarioId);
 
     List<Senha> findByUsuarioIdAndNomeServicoContainingIgnoreCaseOrderByNomeServicoAsc(Long usuarioId, String nomeServico);
+
+    long countByUsuarioId(Long usuarioId);
+
+    void deleteByUsuarioId(Long usuarioId);
 }

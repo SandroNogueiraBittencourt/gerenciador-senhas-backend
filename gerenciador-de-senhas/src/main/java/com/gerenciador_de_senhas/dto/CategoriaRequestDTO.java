@@ -12,8 +12,6 @@ public class CategoriaRequestDTO {
     @Size(max = 255, message = "A descrição deve ter no máximo 255 caracteres")
     private String descricao;
 
-    private Long usuarioId;
-
     public String getNome() {
         return nome;
     }
@@ -28,13 +26,5 @@ public class CategoriaRequestDTO {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public Long getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
     }
 }

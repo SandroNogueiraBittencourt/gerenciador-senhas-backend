@@ -27,9 +27,9 @@ public class CategoriaService {
     }
 
     public CategoriaResponseDTO cadastrar(CategoriaRequestDTO dto, Long usuarioId) {
-    	Usuario usuario = buscarUsuario(usuarioId);
+        Usuario usuario = buscarUsuario(usuarioId);
 
-    	if (categoriaRepository.existsByNomeIgnoreCaseAndUsuarioId(dto.getNome(), usuarioId)) {
+        if (categoriaRepository.existsByNomeIgnoreCaseAndUsuarioId(dto.getNome(), usuarioId)) {
             throw new IllegalArgumentException("Categoria já cadastrada para este usuário");
         }
 
@@ -49,8 +49,9 @@ public class CategoriaService {
     }
 
     public CategoriaResponseDTO atualizar(Long id, CategoriaRequestDTO dto, Long usuarioId) {
-    	Categoria categoria = categoriaRepository.findByIdAndUsuarioId(id, usuarioId)
-            .orElseThrow(() -> new IllegalArgumentException("Categoria não encontrada"));
+        Categoria categoria = categoriaRepository.findByIdAndUsuarioId(id, usuarioId)
+                .orElseThrow(() -> new IllegalArgumentException("Categoria não encontrada"));
+
         categoria.setNome(dto.getNome());
         categoria.setDescricao(dto.getDescricao());
 
