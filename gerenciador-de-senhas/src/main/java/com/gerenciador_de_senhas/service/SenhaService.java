@@ -25,10 +25,10 @@ public class SenhaService {
     private final CriptografiaUtil criptografiaUtil;
 
     public SenhaService(SenhaRepository senhaRepository,
-                        UsuarioRepository usuarioRepository,
-                        CategoriaRepository categoriaRepository,
-                        SenhaMapper senhaMapper,
-                        CriptografiaUtil criptografiaUtil) {
+            UsuarioRepository usuarioRepository,
+            CategoriaRepository categoriaRepository,
+            SenhaMapper senhaMapper,
+            CriptografiaUtil criptografiaUtil) {
         this.senhaRepository = senhaRepository;
         this.usuarioRepository = usuarioRepository;
         this.categoriaRepository = categoriaRepository;
@@ -59,8 +59,7 @@ public class SenhaService {
                 .stream()
                 .map(senha -> senhaMapper.toResponseDTO(
                         senha,
-                        criptografiaUtil.descriptografar(senha.getSenhaCriptografada())
-                ))
+                        criptografiaUtil.descriptografar(senha.getSenhaCriptografada())))
                 .toList();
     }
 
@@ -70,17 +69,23 @@ public class SenhaService {
 
         return senhaMapper.toResponseDTO(
                 senha,
-                criptografiaUtil.descriptografar(senha.getSenhaCriptografada())
-        );
+                criptografiaUtil.descriptografar(senha.getSenhaCriptografada()));
     }
 
     public List<SenhaResponseDTO> pesquisar(Long usuarioId, String termo) {
-        return senhaRepository.findByUsuarioIdAndNomeServicoContainingIgnoreCaseOrderByNomeServicoAsc(usuarioId, termo)
+        String termoNormalizado = termo == null ? "" : termo.trim().toLowerCase();
+
+        if (termoNormalizado.isBlank()) {
+            return listarPorUsuario(usuarioId);
+        }
+
+        String termoBusca = "%" + termoNormalizado + "%";
+
+        return senhaRepository.pesquisarPorTermo(usuarioId, termoBusca)
                 .stream()
                 .map(senha -> senhaMapper.toResponseDTO(
                         senha,
-                        criptografiaUtil.descriptografar(senha.getSenhaCriptografada())
-                ))
+                        criptografiaUtil.descriptografar(senha.getSenhaCriptografada())))
                 .toList();
     }
 
